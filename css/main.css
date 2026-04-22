@@ -1153,22 +1153,24 @@ body,html {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 8px 4px;
+	padding: 6px 4px;
 	border-radius: 12px;
-	transition: background 0.3s;
 }
 
-.grid-item:active {
-	background: var(--light);
+.grid-item:active .grid-icon {
+	background: #ddd;
 }
 
 .grid-icon {
-	width: 40px;
-	height: 40px;
-	margin-bottom: 6px;
-	background-size: contain;
+	width: 48px;
+	height: 48px;
+	margin-bottom: 8px;
+	background-color: #f7f7f7;
+	border-radius: 16px;
+	background-size: 24px;
 	background-position: center;
 	background-repeat: no-repeat;
+	transition: .2s;
 }
 
 .history-icon {
@@ -1207,33 +1209,49 @@ body,html {
 }
 
 .ad-banner {
-	background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+	display: flex;
+	align-items: center;
+	background: #f7f7f7;
 	border-radius: 16px;
-	padding: 20px;
-	color: var(--white);
+	padding: 16px;
 	margin-bottom: 24px;
-	box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.ad-icon {
+	font-size: 32px;
+	margin-right: 16px;
+}
+
+.ad-content {
+	flex: 1;
 }
 
 .ad-title {
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: bold;
-	margin-bottom: 8px;
+	color: var(--dark);
+	margin-bottom: 4px;
 }
 
 .ad-description {
-	font-size: 14px;
-	opacity: 0.9;
-	margin-bottom: 8px;
+	font-size: 13px;
+	color: #666;
+	margin-bottom: 6px;
 }
 
 .ad-tag {
 	display: inline-block;
 	font-size: 11px;
-	padding: 4px 12px;
-	background: rgba(255, 255, 255, 0.3);
-	border-radius: 20px;
-	backdrop-filter: blur(10px);
+	padding: 3px 10px;
+	background: #ff6b6b;
+	color: #fff;
+	border-radius: 4px;
+}
+
+.ad-arrow {
+	font-size: 24px;
+	color: #999;
+	font-weight: bold;
 }
 
 .featured-section {
@@ -1257,19 +1275,25 @@ body,html {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 8px 4px;
-	background: var(--light);
+	padding: 6px 4px;
 	border-radius: 12px;
-	transition: transform 0.3s, background 0.3s;
 }
 
-.featured-item:active {
-	background: rgba(0, 0, 0, 0.05);
+.featured-item:active .featured-icon {
+	background: #ddd;
 }
 
 .featured-icon {
-	font-size: 24px;
+	width: 44px;
+	height: 44px;
 	margin-bottom: 6px;
+	background-color: #f7f7f7;
+	border-radius: 12px;
+	background-size: 20px;
+	background-position: center;
+	background-repeat: no-repeat;
+	transition: .2s;
+	font-size: 0;
 }
 
 .featured-text {
