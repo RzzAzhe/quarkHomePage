@@ -1175,4 +1175,131 @@ require(['jquery'], function ($) {
 		});
 	})
 
+	// 底部导航栏切换
+	$('.nav-item').click(function () {
+		var page = $(this).data('page');
+
+		// 更新导航栏状态
+		$('.nav-item').removeClass('active');
+		$(this).addClass('active');
+
+		// 切换页面
+		if (page === 'home') {
+			// 显示首页
+			$('.page-home').show();
+			$('.bottom-nav').css('z-index', '100');
+
+			// 隐藏我的页面
+			$('.page-profile').removeClass('animation');
+			setTimeout(function () {
+				$('.page-profile').hide();
+			}, 300);
+		} else if (page === 'profile') {
+			// 显示我的页面
+			$('.page-profile').show();
+			$('.bottom-nav').css('z-index', '100');
+
+			// 添加动画效果
+			setTimeout(function () {
+				$('.page-profile').addClass('animation');
+			}, 10);
+
+			// 隐藏首页
+			$('.page-home').hide();
+		}
+	});
+
+	// 我的页面功能项点击事件
+	$('.grid-item').click(function () {
+		var action = $(this).data('action');
+
+		switch (action) {
+			case 'history':
+				// 打开搜索页面并显示历史记录
+				$('.ornament-input-group').click();
+				// 切换回首页导航
+				$('.nav-item').removeClass('active');
+				$('.nav-item[data-page="home"]').addClass('active');
+				// 显示首页
+				$('.page-home').show();
+				$('.page-profile').removeClass('animation');
+				setTimeout(function () {
+					$('.page-profile').hide();
+				}, 300);
+				break;
+
+			case 'bookmark':
+				// 书签功能 - 可以添加长按编辑书签的提示
+				alert('长按首页书签图标可进行编辑操作');
+				break;
+
+			case 'download':
+				// 下载管理功能
+				alert('下载管理功能：此功能需要浏览器支持');
+				break;
+
+			case 'settings':
+				// 打开设置页面 - 触发logo的长按事件
+				$('.logo').trigger('touchend');
+				break;
+
+			case 'theme':
+				// 主题壁纸功能
+				// 打开设置页面并触发壁纸设置
+				$('.logo').trigger('touchend');
+				setTimeout(function () {
+					$('.set-option[data-value="wallpaper"]').click();
+				}, 500);
+				break;
+
+			case 'about':
+				// 关于我们功能
+				alert('夸克浏览器首页模仿版\n当前版本：' + app.version + '\n\n作者：BigLop\nGitHub: https://github.com/liumingye/quarkHomePage');
+				break;
+
+			default:
+				break;
+		}
+	});
+
+	// 推荐功能项点击事件
+	$('.featured-item').click(function () {
+		var text = $(this).find('.featured-text').text();
+
+		switch (text) {
+			case '夸克网盘':
+				alert('夸克网盘功能需要真实的夸克浏览器支持');
+				break;
+
+			case '夸克头条':
+				// 打开精选页面
+				choice();
+				// 切换回首页导航
+				$('.nav-item').removeClass('active');
+				$('.nav-item[data-page="home"]').addClass('active');
+				// 显示首页
+				$('.page-home').show();
+				$('.page-profile').removeClass('animation');
+				setTimeout(function () {
+					$('.page-profile').hide();
+				}, 300);
+				break;
+
+			case '游戏中心':
+				alert('游戏中心功能需要真实的夸克浏览器支持');
+				break;
+
+			case '小说阅读':
+				alert('小说阅读功能需要真实的夸克浏览器支持');
+				break;
+
+			default:
+				break;
+		}
+	});
+
+	// 用户编辑按钮点击事件
+	$('.user-edit').click(function () {
+		alert('用户编辑功能：可修改用户名、头像等信息');
+	});
 })
