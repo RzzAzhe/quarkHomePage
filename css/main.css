@@ -1145,15 +1145,15 @@ body,html {
 
 .section-grid {
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	gap: 16px;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 8px;
 }
 
 .grid-item {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 16px 8px;
+	padding: 8px 4px;
 	border-radius: 12px;
 	transition: background 0.3s;
 }
@@ -1165,7 +1165,7 @@ body,html {
 .grid-icon {
 	width: 40px;
 	height: 40px;
-	margin-bottom: 8px;
+	margin-bottom: 6px;
 	background-size: contain;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -1224,6 +1224,16 @@ body,html {
 .ad-description {
 	font-size: 14px;
 	opacity: 0.9;
+	margin-bottom: 8px;
+}
+
+.ad-tag {
+	display: inline-block;
+	font-size: 11px;
+	padding: 4px 12px;
+	background: rgba(255, 255, 255, 0.3);
+	border-radius: 20px;
+	backdrop-filter: blur(10px);
 }
 
 .featured-section {
@@ -1240,30 +1250,30 @@ body,html {
 .featured-grid {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	gap: 16px;
+	gap: 8px;
 }
 
 .featured-item {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 16px 8px;
+	padding: 8px 4px;
 	background: var(--light);
 	border-radius: 12px;
-	transition: transform 0.3s, box-shadow 0.3s;
+	transition: transform 0.3s, background 0.3s;
 }
 
 .featured-item:active {
-	transform: scale(0.95);
+	background: rgba(0, 0, 0, 0.05);
 }
 
 .featured-icon {
 	font-size: 24px;
-	margin-bottom: 8px;
+	margin-bottom: 6px;
 }
 
 .featured-text {
-	font-size: 12px;
+	font-size: 11px;
 	color: var(--dark);
 	text-align: center;
 }
