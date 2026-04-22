@@ -97,6 +97,7 @@ body,html {
 	padding: 30px;
 	height: 100%;
 	padding-top: 84px;
+	padding-bottom: 70px;
 }
 .logo {
 	text-align: center;
@@ -987,15 +988,16 @@ body,html {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	height: 56px;
-	background: var(--bg);
+	height: 60px;
+	background: rgba(255, 255, 255, 0.98);
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-	z-index: 100;
+	box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.1);
+	z-index: 1000;
 	max-width: 768px;
 	margin: 0 auto;
+	border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .nav-item {
@@ -1005,8 +1007,9 @@ body,html {
 	justify-content: center;
 	flex: 1;
 	height: 100%;
-	color: var(--gray);
+	color: var(--dark);
 	transition: color 0.3s;
+	cursor: pointer;
 }
 
 .nav-item.active {
@@ -1023,7 +1026,7 @@ body,html {
 }
 
 .home-icon {
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2398a6ad' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'%3E%3C/path%3E%3Cpolyline points='9 22 9 12 15 12 15 22'%3E%3C/polyline%3E%3C/svg%3E");
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23313a46' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'%3E%3C/path%3E%3Cpolyline points='9 22 9 12 15 12 15 22'%3E%3C/polyline%3E%3C/svg%3E");
 }
 
 .nav-item.active .home-icon {
@@ -1031,7 +1034,7 @@ body,html {
 }
 
 .profile-icon {
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2398a6ad' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='12' cy='7' r='4'%3E%3C/circle%3E%3C/svg%3E");
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23313a46' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='12' cy='7' r='4'%3E%3C/circle%3E%3C/svg%3E");
 }
 
 .nav-item.active .profile-icon {
