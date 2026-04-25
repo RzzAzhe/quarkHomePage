@@ -1752,8 +1752,7 @@ require(['jquery'], function ($) {
 		$('#cloud' + tab.charAt(0).toUpperCase() + tab.slice(1) + 'List').addClass('active');
 	});
 
-	// 更新首页底部导航切换逻辑，添加云盘页面的显示/隐藏
-	var originalNavClick = $('.nav-item').data('events')?.click;
+	// 底部导航栏切换逻辑
 	$('.nav-item').off('click');
 
 	$('.nav-item').click(function () {
@@ -1763,14 +1762,17 @@ require(['jquery'], function ($) {
 		$('.nav-item').removeClass('active');
 		$(this).addClass('active');
 
-		// 隐藏云盘页面
+		// 隐藏云盘页面和云盘导航栏
 		$('.page-cloud').removeClass('animation');
+		$('.cloud-bottom-nav').removeClass('animation');
+
+		// 显示原来的底部导航栏
+		$('.bottom-nav').show();
 
 		// 切换页面
 		if (page === 'home') {
 			// 显示首页
 			$('.page-home').show();
-			$('.bottom-nav').css('z-index', '100');
 
 			// 隐藏我的页面
 			$('.page-profile').removeClass('animation');
@@ -1785,8 +1787,18 @@ require(['jquery'], function ($) {
 				$('.page-profile').hide();
 			}, 300);
 
-			// 显示云盘页面
+			// 隐藏原来的底部导航栏（三个按钮）
+			$('.bottom-nav').hide();
+
+			// 显示云盘页面和云盘导航栏（四个按钮）
 			$('.page-cloud').addClass('animation');
+			$('.cloud-bottom-nav').addClass('animation');
+
+			// 初始化云盘内部页面状态 - 默认显示首页
+			$('.cloud-nav-item').removeClass('active');
+			$('.cloud-nav-item[data-cloud-page="home"]').addClass('active');
+			$('.cloud-page').removeClass('active');
+			$('.cloud-page[data-cloud-page="home"]').addClass('active');
 
 			// 初始化云盘数据
 			renderRecentList();
@@ -1798,7 +1810,6 @@ require(['jquery'], function ($) {
 		} else if (page === 'profile') {
 			// 显示我的页面
 			$('.page-profile').show();
-			$('.bottom-nav').css('z-index', '100');
 
 			// 添加动画效果
 			setTimeout(function () {
