@@ -691,22 +691,12 @@ require(['jquery'], function ($) {
 				qs_ajax.abort();
 			}
 			if (has_char >= 0) {
-				qs_ajax = $.ajax({
-					url: "https://bird.ioliu.cn/v1?url=https://quark.sm.cn/api/qs?query=" + wd + "&ve=4.1.0.132",
-					type: "GET",
-					timeout: 5000,
-					success: function (res) {
-						if ($(that).val() !== wd) {
-							return;
-						}
-						var data = res.data;
-						var html = '<li>快搜:</li>';
-						for (var i = 0, l = data.length; i < l; i++) {
-							html += '<li>' + data[i] + '</li>';
-						}
-						$('.shortcut3').html(html);
-					}
-				});
+				var defaultQuickSearch = ['百科', '视频', '豆瓣', '新闻', '图片', '微博', '音乐', '知乎', '小说'];
+				var html = '<li>快搜:</li>';
+				for (var i = 0, l = defaultQuickSearch.length; i < l; i++) {
+					html += '<li>' + defaultQuickSearch[i] + '</li>';
+				}
+				$('.shortcut3').html(html);
 			}
 		}
 	});
@@ -889,95 +879,100 @@ require(['jquery'], function ($) {
 				});
 			});
 
-			// 天气
-			$.ajax({
-				url: "https://bird.ioliu.cn/v2?url=https://ai.sm.cn/quark/1/api?format=json&method=weather",
-				type: "get",
-				dataType: "json",
-				success: function (res) {
-					var data = res.data;
-					var color1 = data.color1;
-					var color2 = data.color2;
-					var location = data.location;
-					var temp = data.temp;
-					var air = data.air;
-					var weather = data.weather;
-					var html = '<div>' + temp + '</div><div>' + weather + '</div><div>' + location + ' · ' + air + '</div><div class="cmp-icon" id="lottie-box" style="background-image: url(' + data.lottie + ');"></div>';
-					$('.weather').html(html).css("background-image", "linear-gradient(-33deg," + color1 + " 0%," + color2 + " 99%)");
-				}
-			})
+			// 天气 - 使用模拟数据
+			(function() {
+				var mockWeather = {
+					temp: '25',
+					weather: '晴',
+					location: '北京',
+					air: '优',
+					color1: '#ff6666',
+					color2: '#ff7e7e'
+				};
+				var html = '<div>' + mockWeather.temp + '</div><div>' + mockWeather.weather + '</div><div>' + mockWeather.location + ' · ' + mockWeather.air + '</div>';
+				$('.weather').html(html).css("background-image", "linear-gradient(-33deg," + mockWeather.color1 + " 0%," + mockWeather.color2 + " 99%)");
+			})();
 
-			// 热搜榜 | 今日高分影荐 | 知乎热榜
-			$.ajax({
-				url: "https://bird.ioliu.cn/v2?url=https://ai.sm.cn/quark/1/api?format=json&method=newchosen",
-				type: "get",
-				dataType: "json",
-				success: function (res) {
-					var data = res.data;
-					for (var i = 0, l = data.length; i < l; i++) {
-						if (data[i].name === "今日冷知识") {
-							$('.trivia').attr('href', data[i].link);
-							$('.trivia').find('.shl').text(data[i].value.subtitle);
-						} else if (data[i].name === "热搜榜") {
-							var html = '';
-							for (var ii = 0, ll = data[i].value.length; ii < ll; ii++) {
-								html += '<div class="news-item"><div class="news-item-count">' + (ii + 1) + '</div><div class="news-item-title">' + data[i].value[ii].title + '</div><div class="news-item-hot">' + data[i].value[ii].hot + '</div></div>';
-							}
-							$('.news-list').html(html);
-						} else if (data[i].name === "今日高分影荐") {
-							var html = '';
-							for (var ii = 0, ll = data[i].value.content.length; ii < ll; ii++) {
-								html += '<div class="video-preview swiper-slide"><div class="video-title">' + data[i].value.content[ii].title + '</div><div class="video-time">' + data[i].value.content[ii].duration + '</div><div class="video-poster" style="background-image: url(' + data[i].value.content[ii].img + ');"></div></div>';
-							}
-							$('.video-list').find('.swiper-wrapper').html(html);
-							require(['Swiper'], function (Swiper) {
-								var swiper = new Swiper('.video-swipe', {
-									loop: true,
-									autoplay: {
-										delay: 5000,
-										disableOnInteraction: false,
-									}
-								});
-							})
-						} else if (data[i].name === "知乎热榜") {
-							var html = '';
-							for (var ii = 0, ll = data[i].value.length; ii < ll; ii++) {
-								html += '<div class="audio-item swiper-slide"><div class="audio-item-icon"></div><div class="audio-item-title">' + data[i].value[ii].title + '</div></div>';
-							}
-							$('.audio-list').find('.swiper-wrapper').html(html);
-							require(['Swiper'], function (Swiper) {
-								var swiper = new Swiper('.audio-swipe', {
-									allowTouchMove: false,
-									height: 54,
-									direction: 'vertical',
-									slidesPerView: 2,
-									slidesPerGroup: 2,
-									loop: true,
-									autoplay: {
-										delay: 5000,
-										disableOnInteraction: false,
-									},
-								});
-							})
+			// 今日冷知识 - 使用模拟数据
+			(function() {
+				$('.trivia').find('.shl').text('水在真空中会先沸腾后结冰');
+			})();
+
+			// 热搜榜 - 使用模拟数据
+			(function() {
+				var mockHotSearch = [
+					{ title: '程序员如何保持高效率工作', hot: '2.5万' },
+					{ title: '前端框架React vs Vue对比', hot: '1.8万' },
+					{ title: '人工智能最新发展趋势', hot: '1.5万' },
+					{ title: 'TypeScript入门教程', hot: '1.2万' },
+					{ title: 'Node.js性能优化技巧', hot: '9876' }
+				];
+				var html = '';
+				for (var ii = 0, ll = mockHotSearch.length; ii < ll; ii++) {
+					html += '<div class="news-item"><div class="news-item-count">' + (ii + 1) + '</div><div class="news-item-title">' + mockHotSearch[ii].title + '</div><div class="news-item-hot">' + mockHotSearch[ii].hot + '</div></div>';
+				}
+				$('.news-list').html(html);
+			})();
+
+			// 今日高分影荐 - 使用模拟数据
+			(function() {
+				var mockMovies = [
+					{ title: '星际穿越', duration: '2h 49m', img: '' },
+					{ title: '盗梦空间', duration: '2h 28m', img: '' },
+					{ title: '阿凡达', duration: '2h 42m', img: '' }
+				];
+				var html = '';
+				for (var ii = 0, ll = mockMovies.length; ii < ll; ii++) {
+					html += '<div class="video-preview swiper-slide"><div class="video-title">' + mockMovies[ii].title + '</div><div class="video-time">' + mockMovies[ii].duration + '</div><div class="video-poster" style="background-color: #333;"></div></div>';
+				}
+				$('.video-list').find('.swiper-wrapper').html(html);
+				require(['Swiper'], function (Swiper) {
+					var swiper = new Swiper('.video-swipe', {
+						loop: true,
+						autoplay: {
+							delay: 5000,
+							disableOnInteraction: false,
 						}
-					}
-
-				}
-			});
-
-			// 今日份壁纸
-			$.ajax({
-				url: "https://bird.ioliu.cn/v2?url=https://cn.bing.com/HPImageArchive.aspx?format=js&cc=jp&idx=0&n=1",
-				type: "get",
-				dataType: "json",
-				success: function (res) {
-					var url = 'https://www.bing.com' + res.images[0].url.replace('1920x1080', '1080x1920');
-					$('.back-img').css('background-image', 'url(' + url + ')')
-					$('.back-btn').show().click(function () {
-						settings.set('wallpaper', url);
 					});
+				});
+			})();
+
+			// 知乎热榜 - 使用模拟数据
+			(function() {
+				var mockZhihu = [
+					{ title: '如何学习编程最有效？' },
+					{ title: '程序员应该掌握哪些技能？' },
+					{ title: '前端开发的未来发展方向' },
+					{ title: '如何成为一名优秀的全栈工程师' }
+				];
+				var html = '';
+				for (var ii = 0, ll = mockZhihu.length; ii < ll; ii++) {
+					html += '<div class="audio-item swiper-slide"><div class="audio-item-icon"></div><div class="audio-item-title">' + mockZhihu[ii].title + '</div></div>';
 				}
-			});
+				$('.audio-list').find('.swiper-wrapper').html(html);
+				require(['Swiper'], function (Swiper) {
+					var swiper = new Swiper('.audio-swipe', {
+						allowTouchMove: false,
+						height: 54,
+						direction: 'vertical',
+						slidesPerView: 2,
+						slidesPerGroup: 2,
+						loop: true,
+						autoplay: {
+							delay: 5000,
+							disableOnInteraction: false,
+						},
+					});
+				});
+			})();
+
+			// 今日份壁纸 - 使用固定背景色
+			(function() {
+				$('.back-img').css('background-image', 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)');
+				$('.back-btn').show().click(function () {
+					alert('壁纸设置功能需要真实的壁纸图片');
+				});
+			})();
 
 		})
 	}
@@ -1301,5 +1296,571 @@ require(['jquery'], function ($) {
 	// 用户编辑按钮点击事件
 	$('.user-edit').click(function () {
 		alert('用户编辑功能：可修改用户名、头像等信息');
+	});
+
+	// 云盘数据管理
+	var cloudData = {
+		files: [
+			{ id: 1, name: '工作文档', type: 'folder', size: 0, date: '2026-04-20', path: '/' },
+			{ id: 2, name: '个人照片', type: 'folder', size: 0, date: '2026-04-18', path: '/' },
+			{ id: 3, name: '视频文件夹', type: 'folder', size: 0, date: '2026-04-15', path: '/' },
+			{ id: 4, name: '项目报告.docx', type: 'document', size: '2.5MB', date: '2026-04-22', path: '/' },
+			{ id: 5, name: '旅行照片.jpg', type: 'image', size: '3.2MB', date: '2026-04-21', path: '/' },
+			{ id: 6, name: '学习笔记.pdf', type: 'document', size: '1.8MB', date: '2026-04-20', path: '/' },
+			{ id: 7, name: '音乐合集.mp3', type: 'audio', size: '8.5MB', date: '2026-04-19', path: '/' },
+			{ id: 8, name: '安装包.apk', type: 'apk', size: '45MB', date: '2026-04-18', path: '/' },
+			{ id: 9, name: '会议记录.txt', type: 'other', size: '25KB', date: '2026-04-17', path: '/' },
+			{ id: 10, name: '产品需求.docx', type: 'document', size: '1.2MB', date: '2026-04-16', path: '/工作文档' },
+			{ id: 11, name: '技术方案.pdf', type: 'document', size: '3.5MB', date: '2026-04-15', path: '/工作文档' },
+			{ id: 12, name: '家庭照片1.jpg', type: 'image', size: '4.2MB', date: '2026-04-14', path: '/个人照片' },
+			{ id: 13, name: '家庭照片2.jpg', type: 'image', size: '3.8MB', date: '2026-04-13', path: '/个人照片' },
+			{ id: 14, name: '电影片段.mp4', type: 'video', size: '125MB', date: '2026-04-12', path: '/视频文件夹' },
+		],
+		transfers: {
+			downloading: [
+				{ id: 101, name: '高清电影.mp4', size: '1.2GB', progress: 45, status: 'downloading' },
+				{ id: 102, name: '音乐专辑.zip', size: '250MB', progress: 78, status: 'downloading' },
+			],
+			downloaded: [
+				{ id: 103, name: '电子书.pdf', size: '15MB', progress: 100, status: 'completed', date: '2026-04-24' },
+				{ id: 104, name: '图片合集.zip', size: '80MB', progress: 100, status: 'completed', date: '2026-04-23' },
+			],
+			uploading: [
+				{ id: 105, name: '工作备份.zip', size: '500MB', progress: 32, status: 'uploading' },
+			]
+		},
+		recent: [
+			{ id: 4, name: '项目报告.docx', type: 'document', size: '2.5MB', date: '10分钟前' },
+			{ id: 5, name: '旅行照片.jpg', type: 'image', size: '3.2MB', date: '30分钟前' },
+			{ id: 6, name: '学习笔记.pdf', type: 'document', size: '1.8MB', date: '2小时前' },
+		],
+		shared: [
+			{ id: 201, name: '分享的文档.pdf', type: 'document', size: '5MB', date: '2026-04-20', sharer: '朋友A' },
+			{ id: 202, name: '共享照片集', type: 'folder', size: 0, date: '2026-04-18', sharer: '家人' },
+		]
+	};
+
+	// 当前路径
+	var currentPath = '/';
+
+	// 获取文件图标类型
+	function getFileIconClass(type) {
+		switch (type) {
+			case 'folder': return 'folder-icon';
+			case 'image': return 'image-icon';
+			case 'video': return 'video-icon';
+			case 'document': return 'document-icon';
+			case 'audio': return 'audio-icon';
+			case 'apk': return 'apk-icon';
+			default: return 'other-icon';
+		}
+	}
+
+	// 渲染文件列表
+	function renderFileList(path) {
+		currentPath = path;
+		var files = cloudData.files.filter(function (file) {
+			return file.path === path;
+		});
+
+		var $list = $('#cloudFilesList');
+		if (files.length === 0) {
+			$list.html('<div class="cloud-empty"><div class="cloud-empty-icon"></div><div class="cloud-empty-text">暂无文件</div></div>');
+			return;
+		}
+
+		var html = '';
+		files.forEach(function (file) {
+			html += '<div class="cloud-file-item" data-id="' + file.id + '" data-name="' + file.name + '" data-type="' + file.type + '">';
+			html += '<div class="cloud-file-icon ' + getFileIconClass(file.type) + '"></div>';
+			html += '<div class="cloud-file-info">';
+			html += '<div class="cloud-file-name">' + file.name + '</div>';
+			html += '<div class="cloud-file-meta">';
+			if (file.type !== 'folder') {
+				html += '<span class="cloud-file-size">' + file.size + '</span>';
+			}
+			html += '<span class="cloud-file-date">' + file.date + '</span>';
+			html += '</div></div></div>';
+		});
+		$list.html(html);
+
+		// 更新路径显示
+		var pathHtml = '<span class="cloud-path-item" data-path="/">根目录</span>';
+		if (path !== '/') {
+			var parts = path.split('/').filter(function (p) { return p; });
+			var currentPathStr = '';
+			parts.forEach(function (part) {
+				currentPathStr += '/' + part;
+				pathHtml += '<span class="cloud-path-item" data-path="' + currentPathStr + '">' + part + '</span>';
+			});
+		}
+		$('.cloud-files-path').html(pathHtml);
+	}
+
+	// 渲染最近使用
+	function renderRecentList() {
+		var $list = $('#cloudRecentList');
+		if (cloudData.recent.length === 0) {
+			$list.html('<div class="cloud-empty" style="padding: 30px 20px;"><div class="cloud-empty-text">暂无最近使用的文件</div></div>');
+			return;
+		}
+
+		var html = '';
+		cloudData.recent.forEach(function (file) {
+			html += '<div class="cloud-file-item" data-id="' + file.id + '">';
+			html += '<div class="cloud-file-icon ' + getFileIconClass(file.type) + '"></div>';
+			html += '<div class="cloud-file-info">';
+			html += '<div class="cloud-file-name">' + file.name + '</div>';
+			html += '<div class="cloud-file-meta">';
+			if (file.type !== 'folder') {
+				html += '<span class="cloud-file-size">' + file.size + '</span>';
+			}
+			html += '<span class="cloud-file-date">' + file.date + '</span>';
+			html += '</div></div></div>';
+		});
+		$list.html(html);
+	}
+
+	// 渲染转载内容
+	function renderSharedList() {
+		var $list = $('#cloudShareList');
+		if (cloudData.shared.length === 0) {
+			$list.html('<div class="cloud-empty" style="padding: 30px 20px;"><div class="cloud-empty-text">暂无转载内容</div></div>');
+			return;
+		}
+
+		var html = '';
+		cloudData.shared.forEach(function (file) {
+			html += '<div class="cloud-file-item" data-id="' + file.id + '">';
+			html += '<div class="cloud-file-icon ' + getFileIconClass(file.type) + '"></div>';
+			html += '<div class="cloud-file-info">';
+			html += '<div class="cloud-file-name">' + file.name + '</div>';
+			html += '<div class="cloud-file-meta">';
+			html += '<span class="cloud-file-size">来自: ' + file.sharer + '</span>';
+			html += '<span class="cloud-file-date">' + file.date + '</span>';
+			html += '</div></div></div>';
+		});
+		$list.html(html);
+	}
+
+	// 渲染传输列表
+	function renderTransferList(tab) {
+		var transfers = cloudData.transfers[tab];
+		var $list = $('#cloud' + tab.charAt(0).toUpperCase() + tab.slice(1) + 'List');
+
+		if (transfers.length === 0) {
+			$list.html('<div class="cloud-empty"><div class="cloud-empty-icon"></div><div class="cloud-empty-text">暂无' + (tab === 'downloading' ? '下载中' : tab === 'downloaded' ? '已完成' : '上传中') + '的任务</div></div>');
+			return;
+		}
+
+		var html = '';
+		transfers.forEach(function (transfer) {
+			html += '<div class="cloud-transfer-item" data-id="' + transfer.id + '">';
+			html += '<div class="cloud-file-icon other-icon"></div>';
+			html += '<div class="cloud-transfer-progress">';
+			html += '<div class="cloud-file-name">' + transfer.name + '</div>';
+			if (transfer.status === 'downloading' || transfer.status === 'uploading') {
+				html += '<div class="cloud-transfer-progress-bar">';
+				html += '<div class="cloud-transfer-progress-fill" style="width: ' + transfer.progress + '%"></div>';
+				html += '</div>';
+				html += '<div class="cloud-transfer-status">';
+				html += '<span class="cloud-transfer-percent">' + transfer.progress + '%</span>';
+				html += '<span style="float: right; color: #999; font-size: 11px;">' + transfer.size + '</span>';
+				html += '</div>';
+			} else {
+				html += '<div class="cloud-file-meta">';
+				html += '<span class="cloud-file-size">' + transfer.size + '</span>';
+				html += '<span class="cloud-file-date">' + transfer.date + '</span>';
+				html += '</div>';
+			}
+			html += '</div>';
+			html += '<div class="cloud-transfer-action"></div>';
+			html += '</div>';
+		});
+		$list.html(html);
+	}
+
+	// 模拟传输进度更新
+	function simulateTransfers() {
+		setInterval(function () {
+			cloudData.transfers.downloading.forEach(function (transfer) {
+				if (transfer.progress < 100) {
+					transfer.progress += Math.random() * 2;
+					if (transfer.progress >= 100) {
+						transfer.progress = 100;
+						transfer.status = 'completed';
+						transfer.date = '刚刚';
+						cloudData.transfers.downloaded.unshift(transfer);
+						cloudData.transfers.downloading = cloudData.transfers.downloading.filter(function (t) {
+							return t.id !== transfer.id;
+						});
+						renderTransferList('downloading');
+						renderTransferList('downloaded');
+					}
+				}
+			});
+
+			cloudData.transfers.uploading.forEach(function (transfer) {
+				if (transfer.progress < 100) {
+					transfer.progress += Math.random() * 1.5;
+					if (transfer.progress >= 100) {
+						transfer.progress = 100;
+						transfer.status = 'completed';
+						// 上传完成后添加到文件列表
+						cloudData.files.push({
+							id: Date.now(),
+							name: transfer.name,
+							type: 'other',
+							size: transfer.size,
+							date: '刚刚',
+							path: '/'
+						});
+						cloudData.transfers.uploading = cloudData.transfers.uploading.filter(function (t) {
+							return t.id !== transfer.id;
+						});
+						renderTransferList('uploading');
+						renderFileList(currentPath);
+					}
+				}
+			});
+
+			if (cloudData.transfers.downloading.length > 0) {
+				renderTransferList('downloading');
+			}
+			if (cloudData.transfers.uploading.length > 0) {
+				renderTransferList('uploading');
+			}
+		}, 1000);
+	}
+
+	// 云盘首页搜索功能
+	$('.cloud-search-input').on('input', function () {
+		var keyword = $(this).val().toLowerCase();
+		if (!keyword) {
+			renderRecentList();
+			return;
+		}
+
+		var results = cloudData.files.filter(function (file) {
+			return file.name.toLowerCase().indexOf(keyword) !== -1;
+		});
+
+		var $list = $('#cloudRecentList');
+		if (results.length === 0) {
+			$list.html('<div class="cloud-empty" style="padding: 30px 20px;"><div class="cloud-empty-text">未找到相关文件</div></div>');
+			return;
+		}
+
+		var html = '';
+		results.forEach(function (file) {
+			html += '<div class="cloud-file-item" data-id="' + file.id + '">';
+			html += '<div class="cloud-file-icon ' + getFileIconClass(file.type) + '"></div>';
+			html += '<div class="cloud-file-info">';
+			html += '<div class="cloud-file-name">' + file.name + '</div>';
+			html += '<div class="cloud-file-meta">';
+			if (file.type !== 'folder') {
+				html += '<span class="cloud-file-size">' + file.size + '</span>';
+			}
+			html += '<span class="cloud-file-date">' + file.path + '</span>';
+			html += '</div></div></div>';
+		});
+		$list.html(html);
+	});
+
+	// 点击文件/文件夹
+	$(document).on('click', '.cloud-file-item', function () {
+		var $item = $(this);
+		var type = $item.data('type');
+		var name = $item.data('name');
+
+		if (type === 'folder') {
+			var newPath = currentPath === '/' ? '/' + name : currentPath + '/' + name;
+			renderFileList(newPath);
+		} else {
+			alert('打开文件: ' + name);
+		}
+	});
+
+	// 点击路径导航
+	$(document).on('click', '.cloud-path-item', function () {
+		var path = $(this).data('path');
+		renderFileList(path);
+	});
+
+	// 上传按钮
+	$(document).on('click', '.cloud-action-btn[data-action="upload"]', function () {
+		openFile(function () {
+			var file = this.files[0];
+			if (file) {
+				var fileSize = formatFileSize(file.size);
+				var newTransfer = {
+					id: Date.now(),
+					name: file.name,
+					size: fileSize,
+					progress: 0,
+					status: 'uploading'
+				};
+				cloudData.transfers.uploading.push(newTransfer);
+				renderTransferList('uploading');
+				// 切换到传输页面的上传标签
+				$('.cloud-nav-item[data-cloud-page="transfer"]').click();
+				$('.cloud-transfer-tab').removeClass('active');
+				$('.cloud-transfer-tab[data-tab="uploading"]').addClass('active');
+				$('.cloud-transfer-list').removeClass('active');
+				$('#cloudUploadingList').addClass('active');
+			}
+		});
+	});
+
+	// 格式化文件大小
+	function formatFileSize(bytes) {
+		if (bytes === 0) return '0B';
+		var k = 1024;
+		var sizes = ['B', 'KB', 'MB', 'GB'];
+		var i = Math.floor(Math.log(bytes) / Math.log(k));
+		return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + sizes[i];
+	}
+
+	// 新建文件夹按钮
+	$(document).on('click', '.cloud-action-btn[data-action="create-folder"]', function () {
+		var folderName = prompt('请输入文件夹名称:', '新建文件夹');
+		if (folderName) {
+			cloudData.files.push({
+				id: Date.now(),
+				name: folderName,
+				type: 'folder',
+				size: 0,
+				date: '刚刚',
+				path: currentPath
+			});
+			renderFileList(currentPath);
+		}
+	});
+
+	// 升级会员按钮
+	$(document).on('click', '.cloud-upgrade-btn', function () {
+		$('.cloud-nav-item[data-cloud-page="vip"]').click();
+	});
+
+	// 会员套餐选择
+	$(document).on('click', '.cloud-vip-plan', function () {
+		$('.cloud-vip-plan').removeClass('active');
+		$(this).addClass('active');
+	});
+
+	// 立即开通按钮
+	$(document).on('click', '.cloud-vip-pay-btn', function () {
+		var $selectedPlan = $('.cloud-vip-plan.active');
+		var plan = $selectedPlan.data('plan');
+		var planName = $selectedPlan.find('.cloud-plan-name').text();
+		var price = $selectedPlan.find('.cloud-price-value').text();
+
+		$('#paymentPlan').text(planName);
+		$('#paymentPrice').text('¥' + price);
+		$('.page-payment').addClass('animation');
+	});
+
+	// 支付方式选择
+	$(document).on('click', '.payment-method', function () {
+		$('.payment-method').removeClass('active');
+		$(this).addClass('active');
+	});
+
+	// 支付返回按钮
+	$(document).on('click', '.payment-back', function () {
+		$('.page-payment').removeClass('animation');
+		setTimeout(function () {
+			$('.page-payment').removeClass('animation');
+		}, 300);
+	});
+
+	// 确认支付按钮
+	$(document).on('click', '.payment-confirm-btn', function () {
+		var $selectedPlan = $('.cloud-vip-plan.active');
+		var planName = $selectedPlan.find('.cloud-plan-name').text();
+		var plan = $selectedPlan.data('plan');
+
+		// 计算有效期
+		var now = new Date();
+		var days = 0;
+		switch (plan) {
+			case 'monthly': days = 30; break;
+			case 'quarterly': days = 90; break;
+			case 'yearly': days = 365; break;
+		}
+		now.setDate(now.getDate() + days);
+		var expiryDate = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
+
+		$('#successPlan').text('已开通: ' + planName);
+		$('#successDate').text(expiryDate);
+
+		$('.page-payment').removeClass('animation');
+		$('.page-payment-success').addClass('animation');
+	});
+
+	// 支付成功返回按钮
+	$(document).on('click', '.payment-success-btn', function () {
+		$('.page-payment-success').removeClass('animation');
+	});
+
+	// 底部导航栏切换 - 云盘按钮
+	$('.nav-item[data-page="cloud"]').click(function () {
+		var page = $(this).data('page');
+
+		// 更新导航栏状态
+		$('.nav-item').removeClass('active');
+		$(this).addClass('active');
+
+		// 隐藏其他页面
+		$('.page-home').hide();
+		$('.page-profile').removeClass('animation');
+		setTimeout(function () {
+			$('.page-profile').hide();
+		}, 300);
+
+		// 显示云盘页面
+		$('.page-cloud').addClass('animation');
+
+		// 初始化云盘数据
+		renderRecentList();
+		renderSharedList();
+		renderFileList('/');
+		renderTransferList('downloading');
+		renderTransferList('downloaded');
+		renderTransferList('uploading');
+	});
+
+	// 云盘内部导航切换
+	$(document).on('click', '.cloud-nav-item', function () {
+		var page = $(this).data('cloud-page');
+
+		$('.cloud-nav-item').removeClass('active');
+		$(this).addClass('active');
+
+		$('.cloud-page').removeClass('active');
+		$('.cloud-page[data-cloud-page="' + page + '"]').addClass('active');
+	});
+
+	// 传输页面标签切换
+	$(document).on('click', '.cloud-transfer-tab', function () {
+		var tab = $(this).data('tab');
+
+		$('.cloud-transfer-tab').removeClass('active');
+		$(this).addClass('active');
+
+		$('.cloud-transfer-list').removeClass('active');
+		$('#cloud' + tab.charAt(0).toUpperCase() + tab.slice(1) + 'List').addClass('active');
+	});
+
+	// 更新首页底部导航切换逻辑，添加云盘页面的显示/隐藏
+	var originalNavClick = $('.nav-item').data('events')?.click;
+	$('.nav-item').off('click');
+
+	$('.nav-item').click(function () {
+		var page = $(this).data('page');
+
+		// 更新导航栏状态
+		$('.nav-item').removeClass('active');
+		$(this).addClass('active');
+
+		// 隐藏云盘页面
+		$('.page-cloud').removeClass('animation');
+
+		// 切换页面
+		if (page === 'home') {
+			// 显示首页
+			$('.page-home').show();
+			$('.bottom-nav').css('z-index', '100');
+
+			// 隐藏我的页面
+			$('.page-profile').removeClass('animation');
+			setTimeout(function () {
+				$('.page-profile').hide();
+			}, 300);
+		} else if (page === 'cloud') {
+			// 隐藏其他页面
+			$('.page-home').hide();
+			$('.page-profile').removeClass('animation');
+			setTimeout(function () {
+				$('.page-profile').hide();
+			}, 300);
+
+			// 显示云盘页面
+			$('.page-cloud').addClass('animation');
+
+			// 初始化云盘数据
+			renderRecentList();
+			renderSharedList();
+			renderFileList('/');
+			renderTransferList('downloading');
+			renderTransferList('downloaded');
+			renderTransferList('uploading');
+		} else if (page === 'profile') {
+			// 显示我的页面
+			$('.page-profile').show();
+			$('.bottom-nav').css('z-index', '100');
+
+			// 添加动画效果
+			setTimeout(function () {
+				$('.page-profile').addClass('animation');
+			}, 10);
+
+			// 隐藏首页
+			$('.page-home').hide();
+		}
+	});
+
+	// 启动模拟传输
+	simulateTransfers();
+
+	// 文件分类点击事件
+	$(document).on('click', '.cloud-category-item', function () {
+		var category = $(this).data('category');
+		var categoryMap = {
+			image: '图片',
+			video: '视频',
+			document: '文档',
+			audio: '音乐',
+			apk: '安装包',
+			other: '其他'
+		};
+
+		var typeMap = {
+			image: 'image',
+			video: 'video',
+			document: 'document',
+			audio: 'audio',
+			apk: 'apk',
+			other: 'other'
+		};
+
+		var results = cloudData.files.filter(function (file) {
+			return file.type === typeMap[category];
+		});
+
+		// 切换到文件页面并显示筛选结果
+		$('.cloud-nav-item[data-cloud-page="files"]').click();
+
+		var $list = $('#cloudFilesList');
+		if (results.length === 0) {
+			$list.html('<div class="cloud-empty"><div class="cloud-empty-icon"></div><div class="cloud-empty-text">暂无' + categoryMap[category] + '文件</div></div>');
+			return;
+		}
+
+		var html = '';
+		results.forEach(function (file) {
+			html += '<div class="cloud-file-item" data-id="' + file.id + '" data-name="' + file.name + '" data-type="' + file.type + '">';
+			html += '<div class="cloud-file-icon ' + getFileIconClass(file.type) + '"></div>';
+			html += '<div class="cloud-file-info">';
+			html += '<div class="cloud-file-name">' + file.name + '</div>';
+			html += '<div class="cloud-file-meta">';
+			html += '<span class="cloud-file-size">' + file.size + '</span>';
+			html += '<span class="cloud-file-date">' + file.date + '</span>';
+			html += '</div></div></div>';
+		});
+		$list.html(html);
+
+		// 更新路径显示为分类
+		$('.cloud-files-path').html('<span class="cloud-path-item" data-path="/">根目录</span><span class="cloud-path-item">' + categoryMap[category] + '</span>');
 	});
 })
