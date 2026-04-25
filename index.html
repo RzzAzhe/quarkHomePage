@@ -66,6 +66,10 @@
 				<div class="nav-icon home-icon"></div>
 				<div class="nav-text">首页</div>
 			</div>
+			<div class="nav-item" data-page="cloud">
+				<div class="nav-icon cloud-icon"></div>
+				<div class="nav-text">云盘</div>
+			</div>
 			<div class="nav-item" data-page="profile">
 				<div class="nav-icon profile-icon"></div>
 				<div class="nav-text">我的</div>
@@ -150,6 +154,264 @@
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<!-- 云盘页面 -->
+		<div class="page-cloud">
+			<!-- 云盘首页 -->
+			<div class="cloud-page cloud-home active" data-cloud-page="home">
+				<!-- 云盘顶部搜索栏 -->
+				<div class="cloud-header">
+					<div class="cloud-search-bar">
+						<div class="cloud-search-icon"></div>
+						<input type="text" class="cloud-search-input" placeholder="搜索文件" />
+					</div>
+				</div>
+
+				<!-- 用户信息区域 -->
+				<div class="cloud-user-section">
+					<div class="cloud-user-info">
+						<div class="cloud-user-avatar"></div>
+						<div class="cloud-user-details">
+							<div class="cloud-user-name">夸克用户</div>
+							<div class="cloud-storage-info">
+								<span class="cloud-storage-used">已用: 2.5GB</span>
+								<span class="cloud-storage-total">/ 10GB</span>
+							</div>
+						</div>
+						<div class="cloud-upgrade-btn">升级会员</div>
+					</div>
+					<div class="cloud-storage-bar">
+						<div class="cloud-storage-progress" style="width: 25%;"></div>
+					</div>
+				</div>
+
+				<!-- 文件分类 -->
+				<div class="cloud-category-section">
+					<div class="cloud-section-title">文件分类</div>
+					<div class="cloud-category-grid">
+						<div class="cloud-category-item" data-category="image">
+							<div class="cloud-category-icon image-icon"></div>
+							<div class="cloud-category-text">图片</div>
+							<div class="cloud-category-count">128</div>
+						</div>
+						<div class="cloud-category-item" data-category="video">
+							<div class="cloud-category-icon video-icon"></div>
+							<div class="cloud-category-text">视频</div>
+							<div class="cloud-category-count">15</div>
+						</div>
+						<div class="cloud-category-item" data-category="document">
+							<div class="cloud-category-icon document-icon"></div>
+							<div class="cloud-category-text">文档</div>
+							<div class="cloud-category-count">45</div>
+						</div>
+						<div class="cloud-category-item" data-category="audio">
+							<div class="cloud-category-icon audio-icon"></div>
+							<div class="cloud-category-text">音乐</div>
+							<div class="cloud-category-count">32</div>
+						</div>
+						<div class="cloud-category-item" data-category="apk">
+							<div class="cloud-category-icon apk-icon"></div>
+							<div class="cloud-category-text">安装包</div>
+							<div class="cloud-category-count">8</div>
+						</div>
+						<div class="cloud-category-item" data-category="other">
+							<div class="cloud-category-icon other-icon"></div>
+							<div class="cloud-category-text">其他</div>
+							<div class="cloud-category-count">56</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 最近使用 -->
+				<div class="cloud-recent-section">
+					<div class="cloud-section-title">最近使用</div>
+					<div class="cloud-recent-list" id="cloudRecentList">
+						<!-- 动态填充 -->
+					</div>
+				</div>
+
+				<!-- 转载内容 -->
+				<div class="cloud-share-section">
+					<div class="cloud-section-title">转载内容</div>
+					<div class="cloud-share-list" id="cloudShareList">
+						<!-- 动态填充 -->
+					</div>
+				</div>
+			</div>
+
+			<!-- 文件页面 -->
+			<div class="cloud-page cloud-files" data-cloud-page="files">
+				<div class="cloud-files-header">
+					<div class="cloud-files-title">全部文件</div>
+					<div class="cloud-files-actions">
+						<div class="cloud-action-btn" data-action="upload">上传</div>
+						<div class="cloud-action-btn" data-action="create-folder">新建文件夹</div>
+					</div>
+				</div>
+				<div class="cloud-files-path">
+					<span class="cloud-path-item" data-path="/">根目录</span>
+				</div>
+				<div class="cloud-files-list" id="cloudFilesList">
+					<!-- 动态填充 -->
+				</div>
+			</div>
+
+			<!-- 传输页面 -->
+			<div class="cloud-page cloud-transfer" data-cloud-page="transfer">
+				<div class="cloud-transfer-tabs">
+					<div class="cloud-transfer-tab active" data-tab="downloading">正在下载</div>
+					<div class="cloud-transfer-tab" data-tab="downloaded">已完成</div>
+					<div class="cloud-transfer-tab" data-tab="uploading">正在上传</div>
+				</div>
+				<div class="cloud-transfer-content">
+					<div class="cloud-transfer-list active" id="cloudDownloadingList">
+						<!-- 动态填充 -->
+					</div>
+					<div class="cloud-transfer-list" id="cloudDownloadedList">
+						<!-- 动态填充 -->
+					</div>
+					<div class="cloud-transfer-list" id="cloudUploadingList">
+						<!-- 动态填充 -->
+					</div>
+				</div>
+			</div>
+
+			<!-- 会员页面 -->
+			<div class="cloud-page cloud-vip" data-cloud-page="vip">
+				<div class="cloud-vip-header">
+					<div class="cloud-vip-badge">夸克网盘会员</div>
+					<div class="cloud-vip-slogan">畅享无限空间，极速下载</div>
+				</div>
+
+				<!-- 会员套餐 -->
+				<div class="cloud-vip-plans">
+					<div class="cloud-vip-plan" data-plan="monthly">
+						<div class="cloud-plan-name">月度会员</div>
+						<div class="cloud-plan-price">
+							<span class="cloud-price-symbol">¥</span>
+							<span class="cloud-price-value">19.9</span>
+							<span class="cloud-price-unit">/月</span>
+						</div>
+						<div class="cloud-plan-tag">连续包月15元</div>
+					</div>
+					<div class="cloud-vip-plan recommended" data-plan="quarterly">
+						<div class="cloud-plan-badge">推荐</div>
+						<div class="cloud-plan-name">季度会员</div>
+						<div class="cloud-plan-price">
+							<span class="cloud-price-symbol">¥</span>
+							<span class="cloud-price-value">49.9</span>
+							<span class="cloud-price-unit">/季</span>
+						</div>
+						<div class="cloud-plan-tag">省10元</div>
+					</div>
+					<div class="cloud-vip-plan" data-plan="yearly">
+						<div class="cloud-plan-name">年度会员</div>
+						<div class="cloud-plan-price">
+							<span class="cloud-price-symbol">¥</span>
+							<span class="cloud-price-value">158</span>
+							<span class="cloud-price-unit">/年</span>
+						</div>
+						<div class="cloud-plan-tag">省80.8元</div>
+					</div>
+				</div>
+
+				<!-- 会员权益 -->
+				<div class="cloud-vip-benefits">
+					<div class="cloud-benefits-title">会员权益</div>
+					<div class="cloud-benefits-grid">
+						<div class="cloud-benefit-item">
+							<div class="cloud-benefit-icon storage-icon"></div>
+							<div class="cloud-benefit-text">6TB空间</div>
+						</div>
+						<div class="cloud-benefit-item">
+							<div class="cloud-benefit-icon speed-icon"></div>
+							<div class="cloud-benefit-text">极速下载</div>
+						</div>
+						<div class="cloud-benefit-item">
+							<div class="cloud-benefit-icon offline-icon"></div>
+							<div class="cloud-benefit-text">离线下载</div>
+						</div>
+						<div class="cloud-benefit-item">
+							<div class="cloud-benefit-icon video-icon"></div>
+							<div class="cloud-benefit-text">视频倍速</div>
+						</div>
+						<div class="cloud-benefit-item">
+							<div class="cloud-benefit-icon pdf-icon"></div>
+							<div class="cloud-benefit-text">PDF转换</div>
+						</div>
+						<div class="cloud-benefit-item">
+							<div class="cloud-benefit-icon recycle-icon"></div>
+							<div class="cloud-benefit-text">回收站30天</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="cloud-vip-pay-btn">立即开通</div>
+			</div>
+
+			<!-- 云盘底部导航栏 -->
+			<div class="cloud-bottom-nav">
+				<div class="cloud-nav-item active" data-cloud-page="home">
+					<div class="cloud-nav-icon cloud-home-icon"></div>
+					<div class="cloud-nav-text">首页</div>
+				</div>
+				<div class="cloud-nav-item" data-cloud-page="files">
+					<div class="cloud-nav-icon cloud-files-icon"></div>
+					<div class="cloud-nav-text">文件</div>
+				</div>
+				<div class="cloud-nav-item" data-cloud-page="transfer">
+					<div class="cloud-nav-icon cloud-transfer-icon"></div>
+					<div class="cloud-nav-text">传输</div>
+				</div>
+				<div class="cloud-nav-item" data-cloud-page="vip">
+					<div class="cloud-nav-icon cloud-vip-icon"></div>
+					<div class="cloud-nav-text">会员</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 支付页面 -->
+		<div class="page-payment">
+			<div class="payment-header">
+				<div class="payment-back"></div>
+				<div class="payment-title">确认支付</div>
+			</div>
+			<div class="payment-content">
+				<div class="payment-order-info">
+					<div class="payment-product">夸克网盘会员</div>
+					<div class="payment-plan" id="paymentPlan">季度会员</div>
+					<div class="payment-amount">
+						<span class="payment-label">支付金额</span>
+						<span class="payment-price" id="paymentPrice">¥49.9</span>
+					</div>
+				</div>
+				<div class="payment-methods">
+					<div class="payment-method-title">选择支付方式</div>
+					<div class="payment-method active" data-method="alipay">
+						<div class="payment-method-icon alipay-icon"></div>
+						<div class="payment-method-text">支付宝支付</div>
+						<div class="payment-method-radio"></div>
+					</div>
+					<div class="payment-method" data-method="wechat">
+						<div class="payment-method-icon wechat-icon"></div>
+						<div class="payment-method-text">微信支付</div>
+						<div class="payment-method-radio"></div>
+					</div>
+				</div>
+				<div class="payment-confirm-btn">确认支付</div>
+			</div>
+		</div>
+
+		<!-- 支付成功页面 -->
+		<div class="page-payment-success">
+			<div class="payment-success-icon">✓</div>
+			<div class="payment-success-title">支付成功</div>
+			<div class="payment-success-info">
+				<div class="payment-success-plan" id="successPlan">已开通: 季度会员</div>
+				<div class="payment-success-date">有效期至: <span id="successDate"></span></div>
+			</div>
+			<div class="payment-success-btn">返回</div>
 		</div>
 	</div>
 	<script>
