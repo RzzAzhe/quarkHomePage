@@ -1637,6 +1637,11 @@ require(['jquery'], function ($) {
 		}
 	});
 
+	// 云盘退出按钮
+	$(document).on('click', '.cloud-back-btn', function () {
+		$('.nav-item[data-page="home"]').click();
+	});
+
 	// 升级会员按钮
 	$(document).on('click', '.cloud-upgrade-btn', function () {
 		$('.cloud-nav-item[data-cloud-page="vip"]').click();
@@ -1648,9 +1653,28 @@ require(['jquery'], function ($) {
 		$(this).addClass('active');
 	});
 
+	// 初始化会员页面时默认选中推荐套餐
+	function initVipPage() {
+		if ($('.cloud-vip-plan.active').length === 0) {
+			$('.cloud-vip-plan.recommended').addClass('active');
+		}
+	}
+
+	// 当会员页面显示时初始化
+	$(document).on('click', '.cloud-nav-item[data-cloud-page="vip"]', function () {
+		setTimeout(initVipPage, 50);
+	});
+
 	// 立即开通按钮
 	$(document).on('click', '.cloud-vip-pay-btn', function () {
 		var $selectedPlan = $('.cloud-vip-plan.active');
+		
+		// 如果没有选中的套餐，默认选中推荐套餐
+		if ($selectedPlan.length === 0) {
+			$selectedPlan = $('.cloud-vip-plan.recommended');
+			$selectedPlan.addClass('active');
+		}
+		
 		var plan = $selectedPlan.data('plan');
 		var planName = $selectedPlan.find('.cloud-plan-name').text();
 		var price = $selectedPlan.find('.cloud-price-value').text();
